@@ -1,7 +1,9 @@
 // lbraries
 #include "measueres.h"
-#include "sensor_calibration_TGS5141.h"
-#include "x_nucleo_ika02a1.h"
+extern "C"{
+    #include "sensor_calibration_TGS5141.h"
+    #include "x_nucleo_ika02a1.h"
+}
 #include <math.h>
 
 float Get_Gas_value(){

@@ -11,6 +11,9 @@
 #define USARTx_PRINT_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 #define USARTx_PRINT_CLK_ENABLE()              __HAL_RCC_USART2_CLK_ENABLE()
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifdef USE_STM32F4XX_NUCLEO
 	#define FLASH_SENS_ADDR           ((uint32_t)0x0800D000)
 	#define FLASH_GAIN_ADDR           ((uint32_t)0x0800B000)
@@ -47,6 +50,9 @@
   */
 #define ANALOG_TEMP_VALUE D13
 
+#ifdef __cplusplus
+}
+#endif
 
 float Get_Gas_value(void);
 float Get_Gas_comp(void);
