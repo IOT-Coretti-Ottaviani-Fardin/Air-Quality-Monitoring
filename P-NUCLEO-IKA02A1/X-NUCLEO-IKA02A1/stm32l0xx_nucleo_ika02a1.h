@@ -38,14 +38,14 @@
   */ 
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_nucleo.h"
+#include "PinNames.h"
 
 #ifndef __STM32L0XX_NUCLEO_GAS_H__
 #define __STM32L0XX_NUCLEO_GAS_H__
 
 
 //pin definitions for NUCLEO-L053
-enum NUCLEO_ANALOG_INPUT {A0=0,A1,A2,A3,A4,A5};
+//enum NUCLEO_ANALOG_INPUT {A0=0,A1,A2,A3,A4,A5};
 
 static uint16_t NUCLEO_ANALOG_PIN[] = {GPIO_PIN_0,GPIO_PIN_1,GPIO_PIN_4,GPIO_PIN_0,GPIO_PIN_1,GPIO_PIN_0};
 static GPIO_TypeDef * NUCLEO_ANALOG_GPIO[] = {GPIOA,GPIOA,GPIOA,GPIOB,GPIOC,GPIOC};
@@ -77,8 +77,3 @@ static ADC_TypeDef * NUCLEO_ANALOG_ADC[] = {ADC1,ADC1,ADC1,ADC1,ADC1,ADC1};
 uint16_t Get_ADC_value(uint8_t pin);							 
 
 #endif // __STM32L0XX_NUCLEO_GAS_H__
-
-
-
-
-

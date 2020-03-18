@@ -38,17 +38,17 @@ extern "C" {
 /** Analog input pin for reference voltage
   * Default A2, alternative A0
   */
-#define ANALOG_REF_VOLT_VALUE_PIN D1 //
+#define ANALOG_REF_VOLT_VALUE_PIN A2 //D1
 
 /** Analog input pin for Gas concentration reading
   * Default A3, alternative A1
   */
-#define ANALOG_GAS_VALUE_PIN D0
+#define ANALOG_GAS_VALUE_PIN A3 //D0
 
 /** Analog input pin for temperature reading
   * Default A5, alternative A4
   */
-#define ANALOG_TEMP_VALUE D13
+#define ANALOG_TEMP_VALUE A5 //D13
 
 #ifdef __cplusplus
 }

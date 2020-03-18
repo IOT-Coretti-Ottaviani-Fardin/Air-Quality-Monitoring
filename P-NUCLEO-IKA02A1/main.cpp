@@ -1,7 +1,7 @@
 #include "mbed.h"
-#include <string.h> 
-#include <stdio.h>  
-#include "gas.h"
+#include <string.h>
+#include <stdio.h>
+#include "measures.h"
 
 float gas_value_ppm = 0;
 float gas_value_ppm_comp = 0;

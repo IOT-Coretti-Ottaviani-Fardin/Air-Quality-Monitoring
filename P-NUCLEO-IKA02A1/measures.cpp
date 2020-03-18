@@ -1,5 +1,5 @@
-// lbraries
-#include "measueres.h"
+// libraries
+#include "measures.h"
 extern "C"{
     #include "sensor_calibration_TGS5141.h"
     #include "x_nucleo_ika02a1.h"
@@ -15,7 +15,8 @@ float Get_Gas_value(){
 float Get_Gas_comp(){
     float temperature = Get_Temperature();
     float gas = Get_Gas_value();
-    return Get_comp_gas_concentration(gas,(int8_t)round(temperature));
+    //return Get_comp_gas_concentration(gas,(int8_t)round(temperature));
+    return Get_comp_gas_concentration(gas, (int8_t) temperature);
 }
 
 float Get_Temp(){

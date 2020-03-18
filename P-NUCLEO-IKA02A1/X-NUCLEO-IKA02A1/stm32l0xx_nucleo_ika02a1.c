@@ -1,10 +1,10 @@
-/** 
+/**
   ******************************************************************************
   * @file    stm32l0xx_nucleo_ika02a1.c
   * @author  AMS
   * @version V1.1.0
   * @date    22-January-2019
-  * @brief   This file contains functions related to 
+  * @brief   This file contains functions related to
   *          GPIO, ADC configuration for X-CUBE-IKA02A1 Expansion Board example software package
   * @endcond
   ******************************************************************************
@@ -34,11 +34,12 @@
   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  ******************************************************************************  
-  */ 
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_nucleo.h"
+//#include "stm32l0xx_nucleo.h"
+#include "PinNames.h"
 #include "stm32l0xx_nucleo_ika02a1.h"
 
 uint16_t Get_Gpio_Analog_Value(ADC_HandleTypeDef *hadc,uint8_t input);
@@ -55,7 +56,7 @@ uint16_t value;
    * @brief  Provides value of GPIO pin
    * @return value corresponding to votage on pin
    */
-uint16_t Get_ADC_value(uint8_t pin)		
+uint16_t Get_ADC_value(uint8_t pin)
 {
       GPIO_InitStruct.Pin = NUCLEO_ANALOG_PIN[pin] ;
       hnucleo_adc.Instance = NUCLEO_ANALOG_ADC[pin];
@@ -68,59 +69,59 @@ uint16_t Get_ADC_value(uint8_t pin)
    */
 uint16_t Get_Gpio_Analog_Value(ADC_HandleTypeDef *hadc,uint8_t input) {
     ADCx_Init_Analog(hadc,input);
-	
+
 	hadc->Instance->CHSELR					 = NUCLEO_ANALOG_ADC_CHANNEL[input];
-   
+
 	 /** Workaround for ADC HAL issue **/
-    /* description: Calling HAL_ADC_ConfigChannel will add selected channel to regular conversion and not to overwrite previously used channels. 
-       This actually means that only channel with lowest number is read. 
+    /* description: Calling HAL_ADC_ConfigChannel will add selected channel to regular conversion and not to overwrite previously used channels.
+       This actually means that only channel with lowest number is read.
        calling HAL_ADC_ConfigChannel() with following arguments will add selected channel to regular conversion and not to overwrite previously used channels. */
-//	  sConfig.Channel = 0x0; 
+//	  sConfig.Channel = 0x0;
 //    sConfig.Rank = 1;
 //    status = HAL_ADC_ConfigChannel(hadc, &sConfig);
-//	
+//
 //	/* Select the ADC Channel to be converted */
 //    sConfig.Channel = NUCLEO_ANALOG_ADC_CHANNEL[input];
 //    sConfig.Rank = 1;
 //    status = HAL_ADC_ConfigChannel(hadc, &sConfig);
-    
+
     status = HAL_ADC_Start(hadc);
     // Wait end of conversion and get value
     if (HAL_ADC_PollForConversion(hadc, 10) == HAL_OK) {
          value = HAL_ADC_GetValue(hadc);
          return value;
     }
-    return 0;     
+    return 0;
 }
 
 
  /**
    * @brief  Initializes gpio peripheral, and activates ADC clock
-   * @param hadc pointer to ADC handle 
+   * @param hadc pointer to ADC handle
    */
 static void ADCx_MspInit_Analog(ADC_HandleTypeDef *hadc,uint8_t input)
 {
   GPIO_InitTypeDef  GPIO_InitStruct;
-  
-  /*** Configure the GPIOs ***/  
+
+  /*** Configure the GPIOs ***/
   /* Enable GPIO clock */
   NUCLEO_ANALOG_GPIO_CLK_ENABLE(input);
-  
+
   /* Configure the selected ADC Channel as analog input */
   GPIO_InitStruct.Pin = NUCLEO_ANALOG_PIN[input] ;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(NUCLEO_ANALOG_GPIO[input], &GPIO_InitStruct);
-  
-  /*** Configure the ADC peripheral ***/ 
+
+  /*** Configure the ADC peripheral ***/
   /* Enable ADC clock */
-  NUCLEO_ADC_CLK_ENABLE(input); 
+  NUCLEO_ADC_CLK_ENABLE(input);
 }
 
 
 /**
    * @brief  Initializes ADC
-   * @param hnucleo_Adc pointer to ADC handle 
+   * @param hnucleo_Adc pointer to ADC handle
    */
 static void ADCx_Init_Analog(ADC_HandleTypeDef *hadc,uint8_t input)
 {
@@ -132,9 +133,9 @@ static void ADCx_Init_Analog(ADC_HandleTypeDef *hadc,uint8_t input)
     hadc->Init.ClockPrescaler        = ADC_CLOCK_SYNC_PCLK_DIV1; /* (must not exceed 36MHz) */
 		hadc->Init.LowPowerAutoPowerOff  = DISABLE;
     hadc->Init.LowPowerFrequencyMode = DISABLE;
-    hadc->Init.LowPowerAutoWait      = DISABLE;   
+    hadc->Init.LowPowerAutoWait      = DISABLE;
     hadc->Init.Resolution            = ADC_RESOLUTION12b;
-		
+
 		hadc->Init.SamplingTime          = ADC_SAMPLETIME_160CYCLES_5;
     hadc->Init.ScanConvMode          = ADC_SCAN_DIRECTION_FORWARD;
     hadc->Init.DataAlign             = ADC_DATAALIGN_RIGHT;
@@ -142,9 +143,9 @@ static void ADCx_Init_Analog(ADC_HandleTypeDef *hadc,uint8_t input)
     hadc->Init.DiscontinuousConvMode = DISABLE;
     hadc->Init.ExternalTrigConvEdge  = ADC_EXTERNALTRIGCONVEDGE_NONE;
     hadc->Init.EOCSelection          = ADC_EOC_SINGLE_CONV;
-    hadc->Init.DMAContinuousRequests = DISABLE;   
+    hadc->Init.DMAContinuousRequests = DISABLE;
   }
-  
+
   ADCx_MspInit_Analog(hadc,input);
   HAL_ADC_Init(hadc);
 	HAL_ADCEx_Calibration_Start(hadc, ADC_SINGLE_ENDED);
@@ -162,8 +163,3 @@ void CalibrateADC(void){
 	}
 	HAL_Delay(1);
 }
-
-
-
-
-
