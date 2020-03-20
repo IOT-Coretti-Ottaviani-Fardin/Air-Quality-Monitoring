@@ -1,5 +1,6 @@
 /* mbed Microcontroller Library
  * Copyright (c) 2006-2013 ARM Limited
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +19,15 @@
 
 #include "platform/platform.h"
 
-#if DEVICE_SERIAL
+#if DEVICE_SERIAL || defined(DOXYGEN_ONLY)
 
+#include "mbed_toolchain.h"
 #include "drivers/SerialBase.h"
 #include "hal/serial_api.h"
+#include "platform/NonCopyable.h"
 
 namespace mbed {
 /** \addtogroup drivers */
-/** @{*/
 
 /** A serial port (UART) for communication with other serial devices
  * This is a variation of the Serial class that doesn't use streams,
@@ -34,7 +36,7 @@ namespace mbed {
  * Can be used for Full Duplex communication, or Simplex by specifying
  * one pin as NC (Not Connected)
  *
- * @Note Synchronization level: Not protected
+ * @note Synchronization level: Not protected
  *
  * Example:
  * @code
@@ -48,8 +50,9 @@ namespace mbed {
  *     pc.putc('A');
  * }
  * @endcode
+ * @ingroup drivers
  */
-class RawSerial: public SerialBase {
+class RawSerial: public SerialBase, private NonCopyable<RawSerial> {
 
 public:
     /** Create a RawSerial port, connected to the specified transmit and receive pins, with the specified baud.
@@ -67,7 +70,7 @@ public:
      *
      * @param c The char to write
      *
-     * @returns The written char or -1 if an error occured
+     * @returns The written char or -1 if an error occurred
      */
     int putc(int c);
 
@@ -85,17 +88,19 @@ public:
      */
     int puts(const char *str);
 
-    int printf(const char *format, ...);
+    int printf(const char *format, ...) MBED_PRINTF_METHOD(1, 2);
 
+#if !(DOXYGEN_ONLY)
 protected:
 
-    /** Acquire exclusive access to this serial port
+    /* Acquire exclusive access to this serial port
      */
     virtual void lock(void);
 
-    /** Release exclusive access to this serial port
+    /* Release exclusive access to this serial port
      */
     virtual void unlock(void);
+#endif
 };
 
 } // namespace mbed
@@ -103,5 +108,3 @@ protected:
 #endif
 
 #endif
-
-/** @}*/
